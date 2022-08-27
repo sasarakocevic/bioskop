@@ -41,8 +41,7 @@ Route::group([
     Route::delete('film/{id}', [\App\Http\Controllers\FilmController::class, 'destroy']);
 
     //SLIKA
-    Route::get('slika', \App\Http\Controllers\SlikaController::class, 'index');
-    Route::get('slika/{id}', [\App\Http\Controllers\SlikaController::class, 'show']);
+    Route::resource('slika', \App\Http\Controllers\SlikaController::class);
 
     //REZERVACIJA
     Route::resource('rezervacija', \App\Http\Controllers\RezervacijaController::class);

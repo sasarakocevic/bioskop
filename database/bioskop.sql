@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2022 at 01:16 PM
+-- Generation Time: Aug 27, 2022 at 04:59 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -53,6 +53,18 @@ CREATE TABLE `gledalac` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `gledalac_rezervacija`
+--
+
+CREATE TABLE `gledalac_rezervacija` (
+  `id` int(11) NOT NULL,
+  `gledalac_id` int(11) NOT NULL DEFAULT 0,
+  `rezervacija_id` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `karta`
 --
 
@@ -87,7 +99,6 @@ CREATE TABLE `rezervacija` (
   `id` int(11) NOT NULL,
   `broj_karata` int(11) DEFAULT NULL,
   `nacin_placanja` text DEFAULT NULL,
-  `gledalac_id` int(11) DEFAULT NULL,
   `projekcija_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -128,6 +139,14 @@ ALTER TABLE `gledalac`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `gledalac_rezervacija`
+--
+ALTER TABLE `gledalac_rezervacija`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `gledalac_fk` (`gledalac_id`),
+  ADD KEY `rezervacija_fk` (`rezervacija_id`);
+
+--
 -- Indexes for table `karta`
 --
 ALTER TABLE `karta`
@@ -147,7 +166,6 @@ ALTER TABLE `projekcija_filma`
 --
 ALTER TABLE `rezervacija`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `rezervacija_gledalac_fk` (`gledalac_id`),
   ADD KEY `rezervacija_projekcija_fk` (`projekcija_id`);
 
 --
@@ -170,6 +188,12 @@ ALTER TABLE `film`
 -- AUTO_INCREMENT for table `gledalac`
 --
 ALTER TABLE `gledalac`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `gledalac_rezervacija`
+--
+ALTER TABLE `gledalac_rezervacija`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -201,6 +225,13 @@ ALTER TABLE `sala`
 --
 
 --
+-- Constraints for table `gledalac_rezervacija`
+--
+ALTER TABLE `gledalac_rezervacija`
+  ADD CONSTRAINT `gledalac_fk` FOREIGN KEY (`gledalac_id`) REFERENCES `gledalac` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `rezervacija_fk` FOREIGN KEY (`rezervacija_id`) REFERENCES `rezervacija` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Constraints for table `karta`
 --
 ALTER TABLE `karta`
@@ -217,7 +248,6 @@ ALTER TABLE `projekcija_filma`
 -- Constraints for table `rezervacija`
 --
 ALTER TABLE `rezervacija`
-  ADD CONSTRAINT `rezervacija_gledalac_fk` FOREIGN KEY (`gledalac_id`) REFERENCES `gledalac` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `rezervacija_projekcija_fk` FOREIGN KEY (`projekcija_id`) REFERENCES `projekcija_filma` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 

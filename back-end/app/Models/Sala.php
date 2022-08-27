@@ -13,7 +13,7 @@ class Sala extends Model
 
     protected $fillable = [
         'naziv',
-        'sjediste_id',
+        'broj_mjesta',
     ];
 
     public $timestamps = false;

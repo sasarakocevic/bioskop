@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rezervacija;
 use Illuminate\Http\Request;
 
 class RezervacijaController extends Controller
@@ -13,7 +14,8 @@ class RezervacijaController extends Controller
      */
     public function index()
     {
-        //
+        $data = Rezervacija::all(); //Model get all
+        return $data;
     }
 
     /**
@@ -34,7 +36,8 @@ class RezervacijaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = Rezervacija::create($request->all());
+        return $data;
     }
 
     /**
@@ -45,7 +48,8 @@ class RezervacijaController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Rezervacija::findOrFail($id);
+        return $data;
     }
 
     /**
@@ -68,7 +72,9 @@ class RezervacijaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rezervacija = Rezervacija::find($id);
+        $rezervacija->update($request->all()); //model update
+        return $rezervacija;
     }
 
     /**
@@ -79,6 +85,8 @@ class RezervacijaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $rezervacija = Rezervacija::findOrFail($id);
+        $rezervacija->delete($id);
+        return'{"success":"Uspjesno ste uklonili rezervaciju."}';
     }
 }

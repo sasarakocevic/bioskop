@@ -51,7 +51,8 @@ class SalaController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Sala::findOrFail($id);
+        return $data;
     }
 
     /**
@@ -74,7 +75,9 @@ class SalaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $sala = Sala::find($id);
+        $sala->update($request->all()); //model update
+        return $sala;
     }
 
     /**
@@ -85,6 +88,8 @@ class SalaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $sala = Sala::findOrFail($id);
+        $sala->delete($id);
+        return '{"success":"Uspjesno ste obrisali gledaoca."}';
     }
 }

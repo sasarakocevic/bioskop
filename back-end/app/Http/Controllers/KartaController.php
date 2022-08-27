@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Karta;
 use Illuminate\Http\Request;
 
 class KartaController extends Controller
@@ -13,7 +14,8 @@ class KartaController extends Controller
      */
     public function index()
     {
-        //
+        $data = Karta::all(); //Model get all
+        return $data;
     }
 
     /**
@@ -34,7 +36,8 @@ class KartaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = Karta::create($request->all());
+        return $data;
     }
 
     /**
@@ -45,7 +48,8 @@ class KartaController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Karta::findOrFail($id);
+        return $data;
     }
 
     /**
@@ -68,7 +72,9 @@ class KartaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $karta = Karta::find($id);
+        $karta->update($request->all()); //model update
+        return $karta;
     }
 
     /**
@@ -79,6 +85,8 @@ class KartaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $karta = Karta::findOrFail($id);
+        $karta->delete($id);
+        return'{"success":"Uspjesno ste uklonili kartu."}';
     }
 }

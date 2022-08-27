@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Slika;
 use Illuminate\Http\Request;
 
 class SlikaController extends Controller
@@ -13,7 +14,8 @@ class SlikaController extends Controller
      */
     public function index()
     {
-        //
+        $data = Slika::all(); //Model get all
+        return $data;
     }
 
     /**
@@ -34,7 +36,8 @@ class SlikaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = Slika::create($request->all());
+        return $data;
     }
 
     /**
@@ -45,7 +48,8 @@ class SlikaController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Slika::findOrFail($id);
+        return $data;
     }
 
     /**
@@ -68,7 +72,9 @@ class SlikaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $slika = Slika::find($id);
+        $slika->update($request->all()); //model update
+        return $slika;
     }
 
     /**
@@ -79,6 +85,8 @@ class SlikaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $slika = Slika::findOrFail($id);
+        $slika->delete($id);
+        return '{"success":"Uspjesno ste obrisali gledaoca."}';
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Film;
+use App\Models\Gledalac;
 use Illuminate\Http\Request;
 
 class FilmController extends Controller
@@ -13,7 +15,8 @@ class FilmController extends Controller
      */
     public function index()
     {
-        //
+        $data = Film::all(); //Model get all
+        return $data;
     }
 
     /**
@@ -34,7 +37,8 @@ class FilmController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = Film::create($request->all());
+        return $data;
     }
 
     /**
@@ -45,7 +49,8 @@ class FilmController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Film::findOrFail($id);
+        return $data;
     }
 
     /**
@@ -68,7 +73,9 @@ class FilmController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $film = Film::find($id);
+        $film->update($request->all()); //model update
+        return $film;
     }
 
     /**
@@ -79,6 +86,8 @@ class FilmController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $film = Film::findOrFail($id);
+        $film->delete($id);
+        return'{"success":"Uspjesno ste uklonili film."}';
     }
 }

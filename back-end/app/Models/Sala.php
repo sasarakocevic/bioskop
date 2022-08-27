@@ -12,8 +12,7 @@ class Sala extends Model
     public $table = "sala";
 
     protected $fillable = [
-        'naziv',
-        'broj_mjesta',
+        'naziv', 'broj_mjesta',
     ];
 
     public $timestamps = false;

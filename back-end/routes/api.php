@@ -49,6 +49,6 @@ Route::group([
 
     //PROJEKCIJA FILMA
     Route::resource('projekcija_filma', \App\Models\ProjekcijaFilma::class);
-    
+
 
 });

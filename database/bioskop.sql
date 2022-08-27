@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2022 at 04:59 PM
+-- Generation Time: Aug 27, 2022 at 08:06 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -33,7 +33,7 @@ CREATE TABLE `film` (
   `zanr` varchar(45) DEFAULT NULL,
   `trajanje` int(11) DEFAULT NULL,
   `ocjena` double DEFAULT NULL,
-  `slika` text DEFAULT NULL,
+  `slika_id` int(11) DEFAULT NULL,
   `opis` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -122,6 +122,17 @@ INSERT INTO `sala` (`id`, `naziv`, `broj_mjesta`) VALUES
 (1, 'Sala1', NULL),
 (5, 'Sala2', NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `slika`
+--
+
+CREATE TABLE `slika` (
+  `id` int(11) NOT NULL,
+  `putanja` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -130,7 +141,8 @@ INSERT INTO `sala` (`id`, `naziv`, `broj_mjesta`) VALUES
 -- Indexes for table `film`
 --
 ALTER TABLE `film`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `film_slika_fk` (`slika_id`);
 
 --
 -- Indexes for table `gledalac`
@@ -172,6 +184,12 @@ ALTER TABLE `rezervacija`
 -- Indexes for table `sala`
 --
 ALTER TABLE `sala`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `slika`
+--
+ALTER TABLE `slika`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -221,8 +239,20 @@ ALTER TABLE `sala`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `slika`
+--
+ALTER TABLE `slika`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `film`
+--
+ALTER TABLE `film`
+  ADD CONSTRAINT `film_slika_fk` FOREIGN KEY (`slika_id`) REFERENCES `slika` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `gledalac_rezervacija`

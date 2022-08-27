@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 25, 2022 at 08:41 PM
+-- Generation Time: Aug 27, 2022 at 01:16 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -100,20 +100,16 @@ CREATE TABLE `rezervacija` (
 CREATE TABLE `sala` (
   `id` int(11) NOT NULL,
   `naziv` varchar(50) DEFAULT NULL,
-  `sjediste_id` int(11) DEFAULT NULL
+  `broj_mjesta` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `sjediste`
+-- Dumping data for table `sala`
 --
 
-CREATE TABLE `sjediste` (
-  `id` int(11) NOT NULL,
-  `red` int(11) DEFAULT NULL,
-  `broj` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `sala` (`id`, `naziv`, `broj_mjesta`) VALUES
+(1, 'Sala1', NULL),
+(5, 'Sala2', NULL);
 
 --
 -- Indexes for dumped tables
@@ -158,13 +154,6 @@ ALTER TABLE `rezervacija`
 -- Indexes for table `sala`
 --
 ALTER TABLE `sala`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `broj_mjesta_fk` (`sjediste_id`) USING BTREE;
-
---
--- Indexes for table `sjediste`
---
-ALTER TABLE `sjediste`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -205,13 +194,7 @@ ALTER TABLE `rezervacija`
 -- AUTO_INCREMENT for table `sala`
 --
 ALTER TABLE `sala`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sjediste`
---
-ALTER TABLE `sjediste`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -236,12 +219,6 @@ ALTER TABLE `projekcija_filma`
 ALTER TABLE `rezervacija`
   ADD CONSTRAINT `rezervacija_gledalac_fk` FOREIGN KEY (`gledalac_id`) REFERENCES `gledalac` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `rezervacija_projekcija_fk` FOREIGN KEY (`projekcija_id`) REFERENCES `projekcija_filma` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `sala`
---
-ALTER TABLE `sala`
-  ADD CONSTRAINT `sala_sjediste_fk` FOREIGN KEY (`sjediste_id`) REFERENCES `sjediste` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

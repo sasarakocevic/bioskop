@@ -5,20 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Film extends Model
+class Admin extends Model
 {
     use HasFactory;
 
-    public  $table = 'film';
+    public  $table = 'admin';
 
     public  $timestamps = false;
 
     protected $fillable = [
-        'naziv', 'zanr', 'trajanje', 'datum_izlaska', 'slika', 'opis'
+        'username', 'pass', 'ime', 'prezime', 'email', 'telefon', 'datum_kreiranja'
     ];
-
-    public function projekcija(){
-        return $this->hasMany(Projekcija::class);
-    }
-
 }

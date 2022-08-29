@@ -9,11 +9,22 @@ class Sala extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public $table = "sala";
 
     protected $fillable = [
-        'naziv', 'broj_mjesta',
+        'naziv', 'broj_mjesta', 'bioskop_id'
     ];
 
-    public $timestamps = false;
+    public function bioskop(){
+        return $this->belongsTo(Bioskop::class);
+    }
+
+    public function projekcija(){
+        return $this->hasMany(Projekcija::class);
+    }
+    public function sjediste(){
+        return $this->hasMany(Sjediste::class);
+    }
 }

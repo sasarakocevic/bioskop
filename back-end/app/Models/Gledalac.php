@@ -14,11 +14,10 @@ class Gledalac extends Model
     public $timestamps = 'false';
 
     protected $fillable = [
-        'ime', 'prezime', 'datum_rodjenja'
+        'username', 'pass', 'ime', 'prezime', 'email', 'telefon'
     ];
 
-    public function rezervacija()
-    {
-        return $this->belongsToMany(Rezervacija::class);
+    public function rezervacija(){
+        return $this->hasMany(Rezervacija::class);
     }
 }

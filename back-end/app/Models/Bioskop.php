@@ -5,20 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Film extends Model
+class Bioskop extends Model
 {
     use HasFactory;
 
-    public  $table = 'film';
+    public  $table = 'bioskop';
 
     public  $timestamps = false;
 
     protected $fillable = [
-        'naziv', 'zanr', 'trajanje', 'datum_izlaska', 'slika', 'opis'
+        'naziv', 'bioskop_sale'
     ];
 
-    public function projekcija(){
-        return $this->hasMany(Projekcija::class);
+    public function sala(){
+        return $this->hasMany(Sala::class);
     }
-
 }

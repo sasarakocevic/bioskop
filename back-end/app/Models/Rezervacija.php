@@ -9,20 +9,25 @@ class Rezervacija extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public $table = "rezervacija";
 
     protected $fillable = [
-        'broj_karata', 'nacin_placanja', 'projekcija_id'
+        'broj_sjedista', 'vrijeme', 'status', 'gledalac_id', 'projekcija_id'
     ];
 
-    public $timestamps = false;
-
-    public function projekcijaFilma(){
-        return $this->belongsTo(ProjekcijaFilma::class,'projekcija_id');
+    public function gledalac(){
+        return $this->belongsTo(Gledalac::class);
+    }
+    public function projekcija(){
+        return $this->belongsTo(Projekcija::class);
     }
 
-    public function gledalac()
-    {
-        return $this->belongsToMany(Gledalac::class, 'gledalac_rezervacija');
+    public function placanje(){
+        return $this->hasMany(Placanje::class);
+    }
+    public function projekcija_sjediste(){
+        return $this->hasMany(Projekcija_sjediste::class);
     }
 }

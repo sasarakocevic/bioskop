@@ -5,20 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjekcijaFilma extends Model
+class Placanje extends Model
 {
     use HasFactory;
 
-    public  $table = 'projekcija_filma';
+    public  $table = 'placanje';
 
     public  $timestamps = false;
 
     protected $fillable = [
-        'datum', 'vrijeme_projekcije', 'karta_id'
+        'iznos', 'vrijeme', 'kupon', 'nacin_placanja', 'rezervacija_id'
     ];
 
-    public function karta(){
-        return $this->belongsTo(Karta::class, "karta_id");
+    public function rezervacija(){
+        return $this->belongsTo(Rezervacija::class);
     }
 }
-

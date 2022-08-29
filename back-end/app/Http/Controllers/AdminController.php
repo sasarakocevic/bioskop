@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProjekcijaFilma;
 use Illuminate\Http\Request;
 
-class ProjekcijaFilmaController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +13,7 @@ class ProjekcijaFilmaController extends Controller
      */
     public function index()
     {
-        $data = ProjekcijaFilma::all(); //Model get all
-        return $data;
+        //
     }
 
     /**
@@ -36,8 +34,7 @@ class ProjekcijaFilmaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = ProjekcijaFilma::create($request->all());
-        return $data;
+        //
     }
 
     /**
@@ -48,8 +45,7 @@ class ProjekcijaFilmaController extends Controller
      */
     public function show($id)
     {
-        $data = ProjekcijaFilma::findOrFail($id);
-        return $data;
+        //
     }
 
     /**
@@ -72,9 +68,7 @@ class ProjekcijaFilmaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $projekcijaFilma = ProjekcijaFilma::find($id);
-        $projekcijaFilma->update($request->all()); //model update
-        return $projekcijaFilma;
+        //
     }
 
     /**
@@ -85,8 +79,6 @@ class ProjekcijaFilmaController extends Controller
      */
     public function destroy($id)
     {
-        $projekcijaFilma = ProjekcijaFilma::findOrFail($id);
-        $projekcijaFilma->delete($id);
-        return'{"success":"Uspjesno ste uklonili projekciju."}';
+        //
     }
 }

@@ -7,109 +7,86 @@ use Illuminate\Http\Request;
 
 class RezervacijaController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $data = Rezervacija::all(); //Model get all
         return $data;
     }
 
-    public function create(Request $request)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $data = $request->only(
-            'broj_sjedista',
-            'vrijeme',
-            'status',
-            'gledalac_id',
-            'projekcija_id', );
-
-        $validator = Validator::make($data, [
-            'broj_sjedista' => 'required|integer',
-            'vrijeme' => 'required|integer',
-            'status' => 'required|string',
-            'model_id' => 'required|integer',
-            'category_id' => 'required|integer',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->getMessageBag()], 200);
-        }
-
-        $rezervacija = Rezervacija::create($data);
-
-        return $rezervacija;
+        //
     }
 
-    public function get($id)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
-        if (!auth()->user()->is_admin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
-
-        $rezervacija = Rezervacija::find($id);
-
-        if (!$rezervacija) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, booking not found.',
-            ], 404);
-        }
-
-        return $rezervacija;
+        $data = Rezervacija::create($request->all());
+        return $data;
     }
 
-    public function getRezervacijaModelsByGledalac($id)
-    {
-        $rezervacija = Rezervacija::where('gledalac_id', $id)->get();
-        return $rezervacija;
-    }
-
-    public function getRezervacijaModelsByProjekcija($id)
-    {
-        $rezervacija = Rezervacija::where('projekcija_id', $id)->get();
-        return $rezervacija;
-    }
-
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
         $data = Rezervacija::findOrFail($id);
         return $data;
     }
 
-    public function update(Request $request, Rezervacija $rezervacija)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
-//        $rezervacija = Rezervacija::find($id);
-//        $rezervacija->update($request->all()); //model update
-//        return $rezervacija;
+        //
+    }
 
-        $data = $request->only(
-            'broj_sjedista',
-            'vrijeme',
-            'status',
-            'gledalac_id',
-            'projekcija_id', );
-
-        $validator = Validator::make($data, [
-            'broj_sjedista' => 'required|integer',
-            'vrijeme' => 'required|integer',
-            'status' => 'required|string',
-            'model_id' => 'required|integer',
-            'category_id' => 'required|integer',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->getMessageBag()], 200);
-        }
-
-        $rezervacija->update($data);
-
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $rezervacija = Rezervacija::find($id);
+        $rezervacija->update($request->all()); //model update
         return $rezervacija;
     }
 
-    public function delete(Rezervacija $rezervacija)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
-        $rezervacija->delete();
-
-        return response()->noContent();
+        $rezervacija = Rezervacija::findOrFail($id);
+        $rezervacija->delete($id);
+        return'{"success":"Uspjesno ste uklonili rezervaciju."}';
     }
 }

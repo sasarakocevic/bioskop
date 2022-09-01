@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CarModel;
 use App\Models\Gledalac;
 use Illuminate\Http\Request;
 
 class GledalacController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 
     //svi gledaoci
     public function index()
@@ -16,10 +20,22 @@ class GledalacController extends Controller
         return $data;
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         //
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
 
     //dodavanje novog gledaoca
     public function store(Request $request)
@@ -28,22 +44,12 @@ class GledalacController extends Controller
         return $data;
     }
 
-    public function get($id)
-    {
-        if (!auth()->user()->is_admin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
-
-        $gledalac = Gledalac::with('ime')->get()->find($id);
-        if (!$gledalac) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, car model not found.',
-            ], 404);
-        }
-
-        return $gledalac;
-    }
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 
     //prikaz jednog gledaoca
     public function show($id)
@@ -52,6 +58,24 @@ class GledalacController extends Controller
         return $data;
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
         $gledalac = Gledalac::find($id);
@@ -59,6 +83,12 @@ class GledalacController extends Controller
         return $gledalac;
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         $gledalac = Gledalac::findOrFail($id);

@@ -11,7 +11,7 @@ class Film extends Model
 
     public  $table = 'film';
 
-    public  $timestamps = true;
+    public  $timestamps = false;
 
     protected $fillable = [
         'naziv', 'zanr', 'trajanje', 'datum_izlaska', 'slika', 'opis'

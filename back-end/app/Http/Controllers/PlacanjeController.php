@@ -2,65 +2,83 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Film;
-use App\Models\Placanje;
-use App\Models\Rezervacija;
 use Illuminate\Http\Request;
 
 class PlacanjeController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        $data = Placanje::all(); //Model get all
-        return $data;
+        //
     }
 
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         //
     }
 
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         //
     }
 
-    public function get($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        $placanje = Placanje::fnd($id);
-
-        if (!$placanje) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, hall not found.',
-            ], 404);
-        }
-
-        return $placanje;
+        //
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
-        $placanje = Placanje::find($id);
-
-        $placanje->update([
-            'iznos' => $request->iznos,
-            'vrijeme' => $request->vrijeme,
-            'kupon' => $request->kupon,
-            'nacin_placanja' => $request->nacin_placanja,
-            'rezervacija_id' => $request->rezervacija_id
-        ]);
-
-        return $placanje;
+        //
     }
 
-    public function delete(Placanje $placanje)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
-        $placanje->delete();
-
-        return response()->noContent();
+        //
     }
 }

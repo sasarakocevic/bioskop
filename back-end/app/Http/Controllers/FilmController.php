@@ -2,112 +2,92 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CarModel;
 use App\Models\Film;
 use App\Models\Gledalac;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class FilmController extends Controller
 {
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $data = Film::all(); //Model get all
         return $data;
     }
 
-    public function create(Request $request)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        if (!auth()->user()->is_admin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
-
-        $data = $request->only('naziv', 'zanr', 'trajanje',
-            'datum_izlaska', 'slika', 'opis');
-
-        $validator = Validator::make($data, [
-            'naziv' => 'required|string',
-            'zanr' => 'required|string',
-//            'trajanje' => 'required|integer',
-//            'datum_izlaska' => 'required|integer',
-            'slika' => 'required|string',
-            'opis' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->getMessageBag()], 200);
-        }
-
-        $film = Film::create($data);
-
-        return $film;
+        //
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $data = Film::create($request->all());
         return $data;
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function show($id)
     {
         $data = Film::findOrFail($id);
         return $data;
     }
 
-    public function get($id)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
-        if (!auth()->user()->is_admin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
+        //
+    }
 
-        $film = Film::with('naziv')->get()->find($id);
-        if (!$film) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, movie not found.',
-            ], 404);
-        }
-
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $film = Film::find($id);
+        $film->update($request->all()); //model update
         return $film;
     }
 
-    public function update(Request $request, Film $film)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
     {
-        if (!auth()->user()->is_admin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
-
-        $data = $request->only('naziv', 'zanr', 'trajanje',
-            'datum_izlaska', 'slika', 'opis');
-
-        $validator = Validator::make($data, [
-            'naziv' => 'required|string',
-            'zanr' => 'required|string',
-//            'trajanje' => 'required|integer',
-//            'datum_izlaska' => 'required|integer',
-            'slika' => 'required|string',
-            'opis' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->getMessageBag()], 200);
-        }
-
-        $film->update($data);
-
-        return $film;
-    }
-
-    public function delete(Film $film)
-    {
-        if (!auth()->user()->is_admin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
-
-        $film->delete();
-
-        return response()->noContent();
+        $film = Film::findOrFail($id);
+        $film->delete($id);
+        return'{"success":"Uspjesno ste uklonili film."}';
     }
 }

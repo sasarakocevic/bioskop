@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Film;
-use App\Models\Sjediste;
 use Illuminate\Http\Request;
 
 class SjedisteController extends Controller
@@ -15,8 +13,7 @@ class SjedisteController extends Controller
      */
     public function index()
     {
-        $data = Sjediste::all(); //Model get all
-        return $data;
+        //
     }
 
     /**

@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bioskop;
-use App\Models\Brand;
-use App\Models\Film;
 use Illuminate\Http\Request;
 
 class BioskopController extends Controller
@@ -16,8 +13,7 @@ class BioskopController extends Controller
      */
     public function index()
     {
-        $data = Bioskop::all(); //Model get all
-        return $data;
+        //
     }
 
     /**
@@ -25,24 +21,9 @@ class BioskopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        if (!auth()->user()->is_admin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
-
-        $data = $request->only('naziv');
-        $validator = Validator::make($data, [
-            'naziv' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->getMessageBag()], 200);
-        }
-
-        $bioskop = Bioskop::create($data);
-
-        return response()->json($bioskop);
+        //
     }
 
     /**
@@ -56,52 +37,48 @@ class BioskopController extends Controller
         //
     }
 
-    public function get($id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
     {
-        if (!auth()->user()->is_admin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
-
-        $bioskop = Bioskop::find($id);
-
-        if (!$bioskop) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, cinema not found.',
-            ], 404);
-        }
-
-        return $bioskop;
+        //
     }
 
-    public function update(Request $request, Bioskop $bioskop)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
     {
-        if (!auth()->user()->is_admin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
-
-        $data = $request->only('naziv');
-        $validator = Validator::make($data, [
-            'naziv' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->getMessageBag()], 200);
-        }
-
-        $bioskop -> update($data);
-
-        return $bioskop;
+        //
     }
 
-    public function delete(Bioskop $bioskop)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
     {
-        if (!auth()->user()->is_admin) {
-            return response()->json(['error' => 'Forbidden'], 403);
-        }
+        //
+    }
 
-        $bioskop->delete();
-
-        return response()->noContent();
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

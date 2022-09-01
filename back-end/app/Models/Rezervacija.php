@@ -9,7 +9,7 @@ class Rezervacija extends Model
 {
     use HasFactory;
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     public $table = "rezervacija";
 

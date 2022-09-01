@@ -2,107 +2,83 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gledalac;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AdminController extends Controller
 {
     /**
-     * Create an instace of UserAuthController
-     * @return void
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    public function index()
     {
-        $this->middleware('jwt.verify', ['except' => ['login', 'register']]);
+        //
     }
 
     /**
-     * Register a User
-     * @return \Illuminate\Http\JsonResponse
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function create()
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|confirmed|min:5',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        $gledalac = User::create(array_merge(
-            $validator->validated(),
-            ['password' => bcrypt($request->password)]
-        ));
-
-        return response()->json([
-            'message' => 'User registered successfully',
-            'user' => Gledalac::find($gledalac->id),
-        ], 201);
+        //
     }
 
     /**
-     * Get a JWT token after successful login
-     * @return \Illuminate\Http\JsonResponse
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string|min:5',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        if (!$token = JWTAuth::attempt($validator->validated())) {
-            return response()->json(['status' => 'failed', 'message' => 'Invalid email and password.', 'error' => 'Unauthorized'], 401);
-        }
-
-        return $this->getLoginResponse($token);
+        //
     }
 
     /**
-     * Get the token array structure.
-     * @param  string $token
-     * @return \Illuminate\Http\JsonResponse
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    protected function getLoginResponse($token)
+    public function show($id)
     {
-        return response()->json([
-            'access_token' => $token,
-            //  'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'user' => auth()->gledalac(),
-        ]);
+        //
     }
 
     /**
-     * Refresh a JWT token
-     * @return \Illuminate\Http\JsonResponse
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-
-    /**
-     * Get the Auth user using token.
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function user()
+    public function edit($id)
     {
-        return response()->json(auth()->gledalac());
+        //
     }
 
     /**
-     * Logout user (Invalidate the token).
-     * @return \Illuminate\Http\JsonResponse
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function logout()
+    public function update(Request $request, $id)
     {
-        auth()->logout();
-        return response()->json(['status' => 'success', 'message' => 'User logged out successfully']);
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

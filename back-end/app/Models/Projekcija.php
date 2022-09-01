@@ -11,7 +11,7 @@ class Projekcija extends Model
 
     public  $table = 'projekcija';
 
-    public  $timestamps = false;
+    public  $timestamps = true;
 
     protected $fillable = [
         'datum', 'pocetak', 'kraj', 'film_id', 'sala_id'

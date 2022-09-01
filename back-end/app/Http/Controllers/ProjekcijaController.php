@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Film;
+use App\Models\Projekcija;
 use Illuminate\Http\Request;
 
 class ProjekcijaController extends Controller
@@ -13,7 +15,8 @@ class ProjekcijaController extends Controller
      */
     public function index()
     {
-        //
+        $data = Projekcija::all(); //Model get all
+        return $data;
     }
 
     /**

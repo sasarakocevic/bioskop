@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\CarModel;
+use App\Models\Product;
 use App\Models\Sala;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SalaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
 
@@ -20,76 +19,82 @@ class SalaController extends Controller
         return $data;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if (!auth()->user()->is_admin) {
+            return response()->json(['error' => 'Forbidden'], 403);
+        }
+
+        $data = $request->only('naziv', 'broj_mjesta', 'bioskop_id');
+
+        $validator = Validator::make($data, [
+            'naziv' => 'required|string',
+            'broj_mjesta' => 'required|integer',
+            'bioskop_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->getMessageBag()], 200);
+        }
+
+        $sala = Sala::create($data);
+
+        return $sala;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-       // return $request->all();
-        $data = Sala::create($request->all());
-        return $data;
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $data = Sala::findOrFail($id);
         return $data;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function get($id)
     {
-        //
-    }
+        $sala = Sala::fnd($id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $sala = Sala::find($id);
-        $sala->update($request->all()); //model update
+        if (!$sala) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, hall not found.',
+            ], 404);
+        }
+
         return $sala;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function getSalaModelsByBioskop($id)
     {
-        $sala = Sala::findOrFail($id);
-        $sala->delete($id);
-        return '{"success":"Uspjesno ste obrisali gledaoca."}';
+        $sala = Sala::where('bioksop_id', $id)->get();
+        return $sala;
+    }
+
+    public function update(Request $request, Sala $sala)
+    {
+//        $sala = Sala::find($id);
+//        $sala->update($request->all()); //model update
+//        return $sala;
+
+        $data = $request->only('naziv', 'broj_mjesta', 'bioskop_id');
+
+        $validator = Validator::make($data, [
+            'naziv' => 'required|string',
+            'broj_mjesta' => 'required|integer',
+            'bioskop_id' => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->getMessageBag()], 200);
+        }
+
+        $sala->update($data);
+
+        return $sala;
+    }
+
+    public function delete(Sala $sala)
+    {
+        $sala->delete();
+
+        return response()->noContent();
     }
 }

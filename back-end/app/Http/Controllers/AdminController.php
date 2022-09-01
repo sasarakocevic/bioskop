@@ -2,83 +2,107 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gledalac;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AdminController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Create an instace of UserAuthController
+     * @return void
      */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware('jwt.verify', ['except' => ['login', 'register']]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Register a User
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
+    public function register(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|between:2,100',
+            'email' => 'required|string|email|max:100|unique:users',
+            'password' => 'required|string|confirmed|min:5',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $gledalac = User::create(array_merge(
+            $validator->validated(),
+            ['password' => bcrypt($request->password)]
+        ));
+
+        return response()->json([
+            'message' => 'User registered successfully',
+            'user' => Gledalac::find($gledalac->id),
+        ], 201);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Get a JWT token after successful login
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function login(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:5',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if (!$token = JWTAuth::attempt($validator->validated())) {
+            return response()->json(['status' => 'failed', 'message' => 'Invalid email and password.', 'error' => 'Unauthorized'], 401);
+        }
+
+        return $this->getLoginResponse($token);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Get the token array structure.
+     * @param  string $token
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    protected function getLoginResponse($token)
     {
-        //
+        return response()->json([
+            'access_token' => $token,
+            //  'expires_in' => auth('api')->factory()->getTTL() * 60,
+            'user' => auth()->gledalac(),
+        ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Refresh a JWT token
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function edit($id)
+
+    /**
+     * Get the Auth user using token.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function user()
     {
-        //
+        return response()->json(auth()->gledalac());
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Logout user (Invalidate the token).
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function logout()
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        auth()->logout();
+        return response()->json(['status' => 'success', 'message' => 'User logged out successfully']);
     }
 }

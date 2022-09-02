@@ -18,4 +18,8 @@ public class Gledalac {
     private int id;
     private String ime;
     private String prezime;
+
+    @ManyToOne(targetEntity = Karta.class,cascade = CascadeType.ALL)
+    @JoinColumn(name = "kartaId", referencedColumnName = "id")
+    private Karta karta;
 }

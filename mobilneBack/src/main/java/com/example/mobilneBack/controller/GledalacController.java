@@ -1,6 +1,7 @@
 package com.example.mobilneBack.controller;
 
-import com.example.mobilneBack.entity.Gledalac;
+import com.example.mobilneBack.entity.*;
+import com.example.mobilneBack.repository.KartaRepository;
 import com.example.mobilneBack.service.GledalacService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +16,25 @@ public class GledalacController {
     @Autowired
     private GledalacService gledalacService;
 
+    @Autowired
+    private KartaRepository kartaRepository;
+
     @PostMapping("/addGledalac")
-    public Gledalac addGledalac(@RequestBody Gledalac gledalac){
-        return gledalacService.addGledalac(gledalac);
+    public Gledalac addGledalac(@RequestBody Gledalac gledalac) {
+        try {
+
+            Karta karta =
+                    kartaRepository.findById(gledalac.getKarta().getId())
+                            .orElseThrow(() -> new IllegalArgumentException());
+
+
+            gledalac.setKarta(karta);
+
+
+            return gledalacService.addGledalac(gledalac);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @GetMapping("/getGledalac")

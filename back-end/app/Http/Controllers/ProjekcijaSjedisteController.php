@@ -59,6 +59,7 @@ class ProjekcijaSjedisteController extends Controller
         //
     }
 
+<<<<<<< Updated upstream
     /**
      * Update the specified resource in storage.
      *
@@ -66,6 +67,9 @@ class ProjekcijaSjedisteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+=======
+
+>>>>>>> Stashed changes
     public function update(Request $request, $id)
     {
         //

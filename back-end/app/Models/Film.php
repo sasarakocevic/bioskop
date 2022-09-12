@@ -17,7 +17,7 @@ class Film extends Model
 
     public function rezervacije()
     {
-        return $this->hasOne(Rezervacija::class);
+        return $this->hasMany(Rezervacija::class);
     }
 
 }

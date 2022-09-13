@@ -15,7 +15,15 @@ class GledalacController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $data = Gledalac::insert([
+            'ime' => $request->ime,
+            'prezime' => $request->prezime,
+            'email' => $request->email,
+            'telefon' => $request->telefon,
+            'karta_id' => $request->karta_id
+        ]);
+
+        return $data;
     }
 
     public function show($id)
@@ -33,4 +41,15 @@ class GledalacController extends Controller
     {
         //
     }
+
+    public function addKarta()
+    {
+        $data = \DB::select(\DB::raw("UPDATE gledalac
+            SET karta_id = karta_id
+            WHERE gledalac.id = gledalac_id
+            "));
+
+        return $data;
+    }
+
 }

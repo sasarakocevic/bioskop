@@ -15,7 +15,7 @@ class Gledalac extends Model
         'ime', 'prezime', 'email', 'telefon', 'karta_id'
     ];
 
-    public function karte()
+    public function karta()
     {
         return $this->belongsTo(Karta::class, 'karta_id');
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\FilmController;
 use App\Http\Controllers\GledalacController;
 use App\Http\Controllers\KartaController;
 use App\Http\Controllers\RezervacijaController;
+use App\Http\Controllers\PopunjenostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::group([
     //REZERVACIJA
     Route::get('rezervacija', [RezervacijaController::class, 'index']);
     Route::get('rezervacija/{id}', [RezervacijaController::class, 'show']);
+    Route::post('rezervacija', [RezervacijaController::class, 'store']);
 
     //SALA
     Route::get('sala', [SalaController::class, 'index']);
@@ -41,16 +43,14 @@ Route::group([
     Route::get('film/{id}', [FilmController::class, 'show']);
     Route::post('film', [FilmController::class, 'store']);
     Route::delete('film/{id}', [FilmController::class, 'destroy']);
-    Route::get('film/rezervacija/{rezervacija_id}', [FilmController::class, 'najcesciFilm']);
+    Route::get('film/rezervacija/{rezervacija_id}', [FilmController::class, 'najgledanijiFilm']);
 
     //GLEDALAC
     Route::get('gledalac', [GledalacController::class, 'index']);
     Route::get('gledalac/{id}', [GledalacController::class, 'show']);
+    Route::post('gledalac', [GledalacController::class, 'store']);
 
     //KARTA
-    Route::get('karta', [KartaController::class, 'index']);
-    Route::get('karta/{id}', [KartaController::class, 'show']);
-    Route::get('karta/rezervacija/{rezervacija_id}/sala/{sala_id}', [KartaController::class, 'listaPopunjenosti']);
-
+    Route::resource('karta', KartaController::class);
 
 });

@@ -38,13 +38,15 @@ class KartaController extends Controller
 
     public function listaPopunjenosti()
     {
-        $data = \DB::select(\DB::raw("SELECT COUNT(k.id) as 'broj_karata', s.broj_mjesta, s.naziv_sale, f.naziv
-            FROM karta k, rezervacija r, sala s, film f
-            WHERE r.sala_id = s.id AND k.rezervacija_id = r.id AND r.film_id = f.id
-            GROUP BY r.id
-            LIMIT 1"));
+        $data = \DB::select(\DB::raw("SELECT COUNT(k.id) AS 'broj_karata', s.broj_mjesta, s.naziv_sale, f.naziv
+FROM karta k
+JOIN rezervacija r ON r.id = k.rezervacija_id
+JOIN film f ON f.id = r.film_id
+JOIN sala s ON s.id = r.sala_id
+GROUP BY r.id"));
 
         return $data;
     }
+
 
 }

@@ -16,7 +16,14 @@ class RezervacijaController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $data = Rezervacija::insert([
+            'datum' => $request->datum,
+            'vrijeme' => $request->vrijeme,
+            'sala_id' => $request->sala_id,
+            'film_id' => $request->film_id,
+        ]);
+
+        return $data;
     }
 
     public function show($id)
